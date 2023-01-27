@@ -2,7 +2,11 @@ import { useContext } from "react";
 import { ApiContext } from "../../../../context/ApiContext";
 import styles from "./Recipe.module.scss";
 
-function Recipe({ recipe: { _id, liked, title, image }, toggleLikedRecipe }) {
+function Recipe({
+  recipe: { _id, liked, title, image },
+  toggleLikedRecipe,
+  deleteRecipe,
+}) {
   const BASE_URL_API = useContext(ApiContext);
 
   async function handleClick() {
@@ -25,8 +29,23 @@ function Recipe({ recipe: { _id, liked, title, image }, toggleLikedRecipe }) {
     }
   }
 
+  async function handleClickDelete(e) {
+    e.stopPropagation(); // pour ne pas déclencher le toggle du "like"" sur la recette à cause du bubbling.
+    try {
+      const response = await fetch(`${BASE_URL_API}/${_id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        deleteRecipe(_id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div onClick={handleClick} className={styles.recipe}>
+      <i onClick={handleClickDelete} className="fa-solid fa-xmark" />
       <div className={styles.imageContainer}>
         <img src={image} alt="recipe" />
       </div>
