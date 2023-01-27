@@ -12,11 +12,12 @@ export function useFetchData(url, page) {
       try {
         setIsLoading(true);
 
-        // params de l'url
+        // params de l'url (link API infos in the Readme file)
         const queryParam = new URLSearchParams();
         if (page) {
           queryParam.append("skip", (page - 1) * 18);
           queryParam.append("limit", 18);
+          queryParam.append('sort', 'createdAt:-1');
         }
 
         const response = await fetch(url + `?${queryParam}`); //equivaut à : `${url}?skip=${(page - 1) * 18}&limit=18`
@@ -28,7 +29,6 @@ export function useFetchData(url, page) {
           );
         }
       } catch (e) {
-        console.log("ERREUR");
         setError("Erreur");
       } finally {
         if (!cancel) {
