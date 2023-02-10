@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { getRecipes } from "../apis/recipe";
 
-export function useFetchData(url, page) {
-  const [data, setData] = useState([]);
+export function useFetchRecipes(page) {
+  const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState([]);
 
   useEffect(() => {
     let cancel = false;
 
-    async function fetchData() {
+    async function fetchRecipes() {
       try {
         setIsLoading(true);
 
@@ -17,16 +18,12 @@ export function useFetchData(url, page) {
         if (page) {
           queryParam.append("skip", (page - 1) * 18);
           queryParam.append("limit", 18);
-          queryParam.append('sort', 'createdAt:-1');
+          queryParam.append("sort", "createdAt:-1");
         }
-
-        const response = await fetch(url + `?${queryParam}`); //equivaut à : `${url}?skip=${(page - 1) * 18}&limit=18`
-
-        if (response.ok && !cancel) {
-          const newData = await response.json();
-          setData((x) =>
-            Array.isArray(newData) ? [...x, ...newData] : [...x, newData]
-          );
+        const fetchedRecipes = await getRecipes(queryParam);
+        if (!cancel) {
+          // ajoute les recettes récupérées à la liste existante des recettes
+          setRecipes((x) => [...x, ...fetchedRecipes]);
         }
       } catch (e) {
         setError("Erreur");
@@ -37,10 +34,10 @@ export function useFetchData(url, page) {
       }
     }
 
-    fetchData();
+    fetchRecipes();
 
     return () => (cancel = true);
-  }, [url, page]);
+  }, [page]);
 
-  return [[data, setData], isLoading, error]; // on a besoin de ces props dans HomePage
+  return [[recipes, setRecipes], isLoading, error]; // on a besoin de ces props dans HomePage
 }

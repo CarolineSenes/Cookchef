@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 
-import { useFetchData } from "../../hooks";
+import { useFetchRecipes } from "../../hooks";
 
 import styles from "./Homepage.module.scss";
 
@@ -15,8 +15,8 @@ function Homepage() {
   const [page, setPage] = useState(1);
   const BASE_URL_API = useContext(ApiContext);
 
-  // execution du hook useFetchData() + import des props retournés par le hook
-  const [[recipes, setRecipes], isLoading, error] = useFetchData(
+  // execution du hook useFetchRecipes() + import des props retournés par le hook
+  const [[recipes, setRecipes], isLoading, error] = useFetchRecipes(
     BASE_URL_API,
     page
   );
