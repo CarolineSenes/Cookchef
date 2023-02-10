@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRecipes } from "../apis/recipe";
+import { getRecipes } from "../apis";
 
 export function useFetchRecipes(page) {
   const [recipes, setRecipes] = useState([]);

@@ -9,6 +9,7 @@ import Search from "./components/Search/Search";
 import Loading from "../../components/Loading/Loading";
 
 import { ApiContext } from "../../context/ApiContext";
+import { updateRecipe as updateR, deleteRecipe as deleteR } from "../../apis";
 
 function Homepage() {
   const [filter, setFilter] = useState("");
@@ -22,38 +23,16 @@ function Homepage() {
   );
 
   async function updateRecipe(updatedRecipe) {
-    try {
-      const { _id, ...restRecipe } = updatedRecipe;
-      const response = await fetch(`${BASE_URL_API}/${_id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(restRecipe),
-      });
-      if (response.ok) {
-        const updatedRecipe = await response.json();
-        setRecipes(
-          recipes.map((r) => (r._id === updatedRecipe._id ? updatedRecipe : r))
-        );
-      }
-    } catch (e) {
-      console.log("ERREUR maj recette");
-    }
+    const savedRecipe = await updateR(updatedRecipe);
+    setRecipes(
+      recipes.map((r) => (r._id === savedRecipe._id ? savedRecipe : r))
+    );
   }
 
   async function deleteRecipe(_id) {
-    try {
-      const response = await fetch(`${BASE_URL_API}/${_id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        // crée et retourne un nouveau tableau avec toutes les recettes sauf celle qui correspond à _id
-        setRecipes(recipes.filter((r) => r._id !== _id));
-      }
-    } catch (error) {
-      console.log("ERREUR suppression recette");
-    }
+    await deleteR(_id);
+    // crée et retourne un nouveau tableau avec toutes les recettes sauf celle qui correspond à _id
+    setRecipes(recipes.filter((r) => r._id !== _id));
   }
 
   return (
