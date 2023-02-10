@@ -2,9 +2,10 @@
  * Menu pour desktop
  */
 
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import styles from "./Header.module.scss";
 import cookchef from "../../assets/images/cookchef.png";
-import { useState } from "react";
 import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
 
 function Header({ setPage }) {
@@ -13,20 +14,17 @@ function Header({ setPage }) {
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
       <div className="flex-fill">
-        <img
-          onClick={() => setPage("homepage")}
-          src={cookchef}
-          alt="logo cookchef"
-        />
+        <NavLink to="/">
+          <img src={cookchef} alt="logo cookchef" />
+        </NavLink>
       </div>
       <ul className={styles.headerList}>
-        <button
-          onClick={() => setPage("admin")}
-          className="mr-5 btn btn-reverse-primary"
-        >
-          <i className="fa-solid fa-plus mr-5"></i>
-          <span>Ajouter une recette</span>
-        </button>
+        <NavLink to="/admin">
+          <button className="mr-5 btn btn-reverse-primary">
+            <i className="fa-solid fa-plus mr-5" />
+            Ajouter une recette
+          </button>
+        </NavLink>
         <button className="mr-5 btn btn-reverse-primary">
           <i className="fa-solid fa-heart mr-5"></i>
           <span>Wishlist</span>
