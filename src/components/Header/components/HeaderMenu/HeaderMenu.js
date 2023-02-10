@@ -9,7 +9,7 @@ function HeaderMenu(setPage) {
   return (
     <ul className={`${styles.MenuContainer} card p-20`}>
       <li>
-        <NavLink to="/admin">Ajouter une recette</NavLink>
+        <NavLink to="/admin">Admin</NavLink>
       </li>
       <li>Wishlist</li>
       <li>Connexion</li>
