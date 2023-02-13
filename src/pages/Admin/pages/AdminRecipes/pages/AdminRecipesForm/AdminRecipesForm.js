@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createRecipe, updateRecipe } from "../../../../../../apis";
 import styles from "./AdminRecipesForm.module.scss";
-import { useLoaderData, useNavigate } from "react-router-dom";
 
 function AdminRecipesForm() {
-  const recipe = useLoaderData(); // données récupérées grâce au loader placé sur la route 'edit/:recipeId' dans router.js
+  const recipe = useLoaderData(); // data retrieved using the loader placed on the 'edit/:recipeId' route in router.js
   const navigate = useNavigate();
 
-  // définit les valeurs par défaut des champs du formulaire selon qu'on soit en mode "création" ou "édition"
+  // defines the default values of the form fields depending on whether you are in "creation" or "edit" mode
   const defaultValues = {
     title: recipe ? recipe.title : "",
     image: recipe ? recipe.image : "",
   };
 
-  // gestion de la validation des champs du formulaire
+  // form field validation management
   const recipeSchema = yup.object({
     title: yup
       .string()
@@ -28,7 +28,7 @@ function AdminRecipesForm() {
       .url("L'image doit être un lien valide"),
   });
 
-  // état du formulaire
+  // form status
   const {
     formState: { errors, isSubmitting },
     register,
@@ -42,7 +42,7 @@ function AdminRecipesForm() {
     resolver: yupResolver(recipeSchema),
   });
 
-  // gestion de soumission du formulaire
+  // form submission management
   async function submit(values) {
     try {
       clearErrors();

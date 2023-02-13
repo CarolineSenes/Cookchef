@@ -13,7 +13,7 @@ export function useFetchRecipes(page) {
       try {
         setIsLoading(true);
 
-        // params de l'url (link API infos in the Readme file)
+        // url params (link API infos in the Readme file)
         const queryParam = new URLSearchParams();
         if (page) {
           queryParam.append("skip", (page - 1) * 18);
@@ -22,7 +22,7 @@ export function useFetchRecipes(page) {
         }
         const fetchedRecipes = await getRecipes(queryParam);
         if (!cancel) {
-          // ajoute les recettes récupérées à la liste existante des recettes
+          // adds the retrieved recipes to the existing list of recipes
           setRecipes((x) => [...x, ...fetchedRecipes]);
         }
       } catch (e) {
@@ -39,5 +39,5 @@ export function useFetchRecipes(page) {
     return () => (cancel = true);
   }, [page]);
 
-  return [[recipes, setRecipes], isLoading, error]; // on a besoin de ces props dans HomePage
+  return [[recipes, setRecipes], isLoading, error]; // we need these props in HomePage
 }

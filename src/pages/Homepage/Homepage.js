@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 
 import { useFetchRecipes } from "../../hooks";
 
@@ -14,7 +14,7 @@ function Homepage() {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
 
-  // execution du hook useFetchRecipes() + import des props retournés par le hook
+  // execution of the useFetchRecipes() hook + import of the props returned by the hook
   const [[recipes, setRecipes], isLoading, error] = useFetchRecipes(
     page
   );
@@ -28,7 +28,7 @@ function Homepage() {
 
   async function deleteRecipe(_id) {
     await deleteR(_id);
-    // crée et retourne un nouveau tableau avec toutes les recettes sauf celle qui correspond à _id
+    // creates and returns a new array with all recipes except the one that matches "_id"
     setRecipes(recipes.filter((r) => r._id !== _id));
   }
 

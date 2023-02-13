@@ -22,7 +22,7 @@ const AdminRecipesForm = lazy(() =>
   )
 );
 
-// Router initialisation
+// router initialization
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
                 loader: async ({ params: { recipeId } }) => getRecipe(recipeId), // va charger la recette quand cette route est appellée
               },
               {
-                // si l'utilisateur arrive sur '/recipes' il sera rediriger vers "/admin/recipes/list"
+                // if the user arrives at '/recipes' he will be redirected to "/admin/recipes/list"
                 index: true,
                 loader: async () => redirect("/admin/recipes/list"),
               },
@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
             element: <AdminUsers />,
           },
           {
-            // si l'utilisateur arrive sur '/users' il sera rediriger vers "/admin/recipes"
+            // if the user arrives at '/users' he will be redirected to "/admin/recipes"
             index: true,
             loader: async () => redirect("/admin/recipes"),
           },

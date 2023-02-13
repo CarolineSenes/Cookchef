@@ -10,7 +10,7 @@ function Recipe({ recipe, updateRecipe, deleteRecipe }) {
   }
 
   async function handleClickDelete(e) {
-    e.stopPropagation(); // pour ne pas déclencher le toggle du "like"" sur la recette à cause du bubbling.
+    e.stopPropagation(); // so as not to trigger the "like" toggle on the recipe because of the bubbling
     deleteRecipe(recipe._id)
   }
 
