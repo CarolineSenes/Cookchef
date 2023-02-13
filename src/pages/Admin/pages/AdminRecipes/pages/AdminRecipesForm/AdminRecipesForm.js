@@ -1,14 +1,18 @@
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createRecipe } from "../../../../../../apis";
+import { createRecipe, updateRecipe } from "../../../../../../apis";
 import styles from "./AdminRecipesForm.module.scss";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 function AdminRecipesForm() {
-  // définit les valeurs par défaut des champs du formulaire
+  const recipe = useLoaderData(); // données récupérées grâce au loader placé sur la route 'edit/:recipeId' dans router.js
+  const navigate = useNavigate();
+
+  // définit les valeurs par défaut des champs du formulaire selon qu'on soit en mode "création" ou "édition"
   const defaultValues = {
-    title: "",
-    image: "",
+    title: recipe ? recipe.title : "",
+    image: recipe ? recipe.image : "",
   };
 
   // gestion de la validation des champs du formulaire
@@ -42,8 +46,16 @@ function AdminRecipesForm() {
   async function submit(values) {
     try {
       clearErrors();
-      await createRecipe(values);
-      reset(defaultValues);
+      if (recipe) {
+        await updateRecipe({
+          ...values,
+          _id: recipe._id,
+        });
+        navigate("/admin/recipes/list");
+      } else {
+        await createRecipe(values);
+        reset(defaultValues);
+      }
     } catch (e) {
       setError("generic", { type: "generic", message: "Il y a eu une erreur" });
     }

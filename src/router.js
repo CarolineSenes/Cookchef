@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { createBrowserRouter, redirect } from "react-router-dom";
+import { getRecipe } from "./apis";
 import App from "./App";
 import Admin from "./pages/Admin/Admin";
 import Homepage from "./pages/Homepage/Homepage";
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
               {
                 path: "edit/:recipeId",
                 element: <AdminRecipesForm />,
+                loader: async ({ params: { recipeId } }) => getRecipe(recipeId), // va charger la recette quand cette route est appellée
               },
               {
                 // si l'utilisateur arrive sur '/recipes' il sera rediriger vers "/admin/recipes/list"
