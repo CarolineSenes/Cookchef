@@ -8,17 +8,14 @@ import Recipe from "./components/Recipe/Recipe";
 import Search from "./components/Search/Search";
 import Loading from "../../components/Loading/Loading";
 
-import { ApiContext } from "../../context/ApiContext";
 import { updateRecipe as updateR, deleteRecipe as deleteR } from "../../apis";
 
 function Homepage() {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
-  const BASE_URL_API = useContext(ApiContext);
 
   // execution du hook useFetchRecipes() + import des props retournés par le hook
   const [[recipes, setRecipes], isLoading, error] = useFetchRecipes(
-    BASE_URL_API,
     page
   );
 
